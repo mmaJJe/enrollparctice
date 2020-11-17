@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import EnrollNumber, EnrollRank, EnrollStartTime
+from django.contrib.auth.models import User
 
 def waitBoard(request):
     user = str(request.user)
@@ -47,7 +48,7 @@ def enrollBoard(request):
 def enroll(request):
     EnrollStartTimeSet = EnrollStartTime.objects.order_by("-pk")[:1]
     enrollStartTime = EnrollStartTimeSet[0]
-
+    user = User.objects.get(pk=request.user.pk)
     applynumber = request.POST['applyNumber']
     enrollNumber = EnrollNumber.objects.get(number=applynumber)
 
@@ -59,7 +60,7 @@ def enroll(request):
     # 소셜 로그인 구현 한 뒤 'blue' 부분을 유저정보를 담고 있는 캐쉬로 바꿔줘야함
     applied = EnrollRank.objects.filter(enrollNumber=enrollNumber,
                                         enrollStartTime=enrollStartTime,
-                                        user='blue')
+                                        user=user)
                                         
     if applied.exists():
         return redirect("enrollBoard")
@@ -68,14 +69,15 @@ def enroll(request):
         enroll = EnrollRank(enrollNumber=enrollNumber,
                             rank= rank, 
                             enrollStartTime=enrollStartTime,
-                            user="blue")
+                            user=user)
         enroll.save()
         return redirect("enrollBoard")
 
 
 def rankingBoard(request):
+    user = User.objects.get(pk=request.user.pk)
     # 소셜 로그인 구현 한 뒤 'blue' 부분을 유저정보를 담고 있는 캐쉬로 바꿔줘야함
-    myRanks = EnrollRank.objects.filter(user="blue")
+    myRanks = EnrollRank.objects.filter(user=user)
     print(myRanks)
     context = {"myRanks": myRanks}
     return render(request, "boards/rankingboard.html", context)

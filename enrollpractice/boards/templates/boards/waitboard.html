@@ -1,3 +1,7 @@
+{% load socialaccount %}
+{% providers_media_js %}
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,11 +11,13 @@
 </head>
 <body>
     <div>
+        {{request.user}}    
         <a href="{% url 'waitBoard' %}">메인 페이지</a>
         <a href="{% url 'enrollBoard' %}">수강신청하기</a>
         <a href="{% url 'rankingBoard' %}">랭킹 보드</a>
+        <a href="{% provider_login_url 'kakao' %}">카카오 로그인</a>
+        <a href="/accounts/logout">로그아웃</a>
     </div>
-
 
     <div>
         다음 수강신청 시간 : {{nextEnrollStartTime.startTime}}
