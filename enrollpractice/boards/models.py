@@ -10,5 +10,6 @@ class EnrollNumber(models.Model):
 
 class EnrollRank(models.Model):
     enrollNumber = models.ForeignKey(EnrollNumber, on_delete=models.CASCADE)
+    rank = models.IntegerField(default=0)
     enrollStartTime = models.ForeignKey(EnrollStartTime, on_delete=models.CASCADE)
     user = models.CharField(max_length=200)
