@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>waitBoard</title>
+</head>
+<body>
+    <div>
+        <a href="{% url 'waitBoard' %}">메인 페이지</a>
+        <a href="{% url 'enrollBoard' %}">수강신청하기</a>
+        <a href="{% url 'rankingBoard' %}">랭킹 보드</a>
+    </div>
+
+
+    <div>
+        다음 수강신청 시간 : {{nextEnrollStartTime.startTime}}
+    </div>
+    <div>
+        다음 수강신청 번호 : 
+        {% for nextEnrollNumber in nextEnrollNumbers %}
+        {{nextEnrollNumber.number}}
+        {% endfor %}
+    </div>
+    이전 수강신청 결과
+    <div>
+        {% for preEnrollNumber in preEnrollNumbers %}
+            {{preEnrollNumber.number}}
+        {% endfor %}
+    </div>
+    <div>
+        {% if preEnrollResults %}
+        {% for preEnrollResult in preEnrollResults %}
+        {% if preEnrollResult == 0 %}
+        x
+        {% else %}
+        {{preEnrollResult}}
+        {% endif%}
+        {% endfor %}
+        {% else %}
+        이전 수강신청 결과가 없습니다.
+        {% endif %}
+    </div>
+</body>
+</html>

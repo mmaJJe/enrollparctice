@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>enrollBoard</title>
+</head>
+<body>
+    <div>
+        <a href="{% url 'waitBoard' %}">메인 페이지</a>
+        <a href="{% url 'enrollBoard' %}">수강신청하기</a>
+        <a href="{% url 'rankingBoard' %}">랭킹 보드</a>
+    </div>
+    <div>
+       
+        {% for nowEnrollNumber in nowEnrollNumbers %}
+            <form action="{% url 'enroll' %}" method="post">
+                {% csrf_token %}
+                {{nowEnrollNumber.number}}
+                <input type="hidden" value={{nowEnrollNumber.number}} name="applyNumber">
+                <button type="submit">수강신청 하기</button>
+            </form>
+        {% endfor %}
+    </div>
+</body>
+</html>
